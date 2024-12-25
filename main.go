@@ -73,7 +73,7 @@ func postTaskHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	tasks[newTask.ID] = newTask
 
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 }
 
 func getTaskById(w http.ResponseWriter, r *http.Request) {
@@ -89,7 +89,7 @@ func getTaskById(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := json.Marshal(task)
 	if err != nil {
-		http.Error(w, "Ошибка кодирования в JSON", http.StatusInternalServerError)
+		http.Error(w, "Ошибка кодирования в JSON", http.StatusBadRequest)
 		return
 	}
 
@@ -115,12 +115,13 @@ func deleteTaskHandler(w http.ResponseWriter, r *http.Request) {
 func main() {
 	r := chi.NewRouter()
 
+	//регистрируем
 	r.Get("/tasks", getAllTasksHandler)
 	r.Post("/tasks", postTaskHandler)
 	r.Get("/tasks/{id}", getTaskById)
 	r.Delete("/tasks/{id}", deleteTaskHandler)
 
-	if err := http.ListenAndServe(":8085", r); err != nil {
+	if err := http.ListenAndServe(":8080", r); err != nil {
 		fmt.Printf("Ошибка при запуске сервера: %s", err.Error())
 		return
 	}
