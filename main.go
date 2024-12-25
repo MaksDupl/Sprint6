@@ -121,7 +121,7 @@ func main() {
 	r.Get("/tasks/{id}", getTaskById)
 	r.Delete("/tasks/{id}", deleteTaskHandler)
 
-	if err := http.ListenAndServe(":8085", r); err != nil {
+	if err := http.ListenAndServe(":8080", r); err != nil {
 		fmt.Printf("Ошибка при запуске сервера: %s", err.Error())
 		return
 	}
